@@ -1,0 +1,27 @@
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: url-short-go_postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: url-short-go
+    ports:
+      - "5431:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: url-short-go_backend_container
+    restart: always
+    ports:
+      - "8080:4000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+
